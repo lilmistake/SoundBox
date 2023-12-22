@@ -27,6 +27,6 @@ class Root extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: themeData(themeProvider.brightness),
-        home: const Scaffold());
+        home: const HomePage());
   }
 }
