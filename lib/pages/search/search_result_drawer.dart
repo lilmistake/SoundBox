@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:soundbox/models/song_model.dart';
+import 'package:soundbox/core/models/song_model.dart';
 import 'package:soundbox/services/saavn_api_service.dart';
-import 'package:soundbox/search/search_result_tile.dart';
+import 'package:soundbox/pages/search/search_result_tile.dart';
 
-class SearchResultsDrawer extends StatelessWidget {
-  const SearchResultsDrawer({super.key, required this.query});
+class SearchResultDrawer extends StatelessWidget {
+  const SearchResultDrawer({super.key, required this.query});
   final String query;
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      width: double.infinity,
         child: Padding(
       padding: const EdgeInsets.all(8),
       child: Column(
@@ -18,17 +19,20 @@ class SearchResultsDrawer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Showing Results for',
-                  ),
-                  Text(
-                    '"$query"',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Showing Results for',
+                    ),
+                    Text(
+                      '"$query"',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
               const CloseButton()
             ],
@@ -36,20 +40,20 @@ class SearchResultsDrawer extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          Expanded(child: SearchResults(query: query)),
+          Expanded(child: _SearchResults(query: query)),
         ],
       ),
     ));
   }
 }
 
-class SearchResults extends StatelessWidget {
-  const SearchResults({super.key, required this.query});
+class _SearchResults extends StatelessWidget {
+  const _SearchResults({required this.query});
   final String query;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: SaavnApiService().searchForSong(query, limit: 10),
+        future: SaavnApiService().searchForSong(query, limit: 25),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasData) {

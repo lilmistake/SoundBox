@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:soundbox/search/search_results.dart';
+import 'package:soundbox/pages/search/search_result_drawer.dart';
 
-class HomeSearchBar extends StatelessWidget {
-  const HomeSearchBar({super.key, required this.setDrawer});
+class SongSearchBar extends StatelessWidget {
+  const SongSearchBar({super.key, required this.setDrawer});
 
   final Function(Widget) setDrawer;
 
@@ -20,7 +20,7 @@ class HomeSearchBar extends StatelessWidget {
                       if (controller.text.isEmpty) {
                         return;
                       }
-                      setDrawer(SearchResultsDrawer(query: controller.text));
+                      setDrawer(SearchResultDrawer(query: controller.text));
                       Scaffold.of(context).openDrawer();
                     },
                     icon: const Icon(Icons.search)),

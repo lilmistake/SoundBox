@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:soundbox/home/home_page.dart';
-import 'package:soundbox/theme_provider.dart';
+import 'package:soundbox/pages/home/home_page.dart';
+import 'package:soundbox/core/providers/song_provider.dart';
+import 'package:soundbox/core/providers/theme_provider.dart';
 
 void main(List<String> args) {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -13,6 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ChangeNotifierProvider(create: (_) => SongProvider()),
     ], child: const Root());
   }
 }

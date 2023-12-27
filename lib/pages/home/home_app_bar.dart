@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:soundbox/theme_provider.dart';
+import 'package:soundbox/core/providers/theme_provider.dart';
 
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({
