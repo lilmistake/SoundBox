@@ -1,7 +1,7 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
-import 'package:soundbox/models/song_model.dart';
+import 'package:soundbox/core/models/lyrics_model.dart';
+import 'package:soundbox/core/models/song_model.dart';
 
 class SaavnApiService {
   Future<List<Song>?> searchForSong(String query, {int limit = 5}) async {
@@ -26,5 +26,21 @@ class SaavnApiService {
       songs.add(Song.fromJson(result));
     }
     return songs;
+  }
+  
+  Future<Lyrics?> getLyrics(String songId) async {
+    Uri uri = Uri(
+        scheme: "https",
+        host: "saavn.me",
+        path: "lyrics",
+        queryParameters: {
+          "id": songId,
+        });
+
+    var response = await http.get(uri);
+    if (response.statusCode != 200) {
+      return null;
+    }
+    return Lyrics.fromJson(jsonDecode(response.body));
   }
 }
