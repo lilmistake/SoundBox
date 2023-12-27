@@ -1,15 +1,16 @@
-import 'package:soundbox/models/album_model.dart';
-import 'package:soundbox/models/song_download_model.dart';
-import 'package:soundbox/models/song_image_model.dart';
+import 'package:soundbox/core/models/album_model.dart';
+import 'package:soundbox/core/models/song_download_model.dart';
+import 'package:soundbox/core/models/song_image_model.dart';
 
 class Song {
   String id;
   String name;
   String? type;
+  String? lyrics;
   Album album;
   String year;
   String? releaseDate;
-  String duration;
+  int duration;
   String label;
   String primaryArtists;
   String primaryArtistsId;
@@ -37,6 +38,7 @@ class Song {
     required this.playCount,
     required this.language,
     required this.hasLyrics,
+    this.lyrics,
     required this.url,
     required this.images,
     required this.downloadUrls,
@@ -50,10 +52,10 @@ class Song {
   factory Song.fromJson(Map<String, dynamic> json) {
     return Song(
         id: json["id"],
-        name: json["name"],
+        name: json["name"].toString().replaceAll("&amp;", "&"),
         album: Album.fromJson(json["album"]),
         year: json["year"],
-        duration: json["duration"],
+        duration: int.parse(json["duration"]),
         label: json["label"],
         primaryArtists: json["primaryArtists"],
         primaryArtistsId: json["primaryArtistsId"],
