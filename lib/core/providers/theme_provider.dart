@@ -15,7 +15,14 @@ class ThemeProvider extends ChangeNotifier {
 }
 
 ThemeData themeData(Brightness brightness) {
-  return ThemeData(
+  ThemeData theme = ThemeData(
+    sliderTheme: SliderThemeData(
+      overlayShape: SliderComponentShape.noOverlay,
+      trackHeight: 40,
+      inactiveTrackColor: Colors.black,
+      trackShape: const RectangularSliderTrackShape(),
+      thumbShape: SliderComponentShape.noThumb,
+    ),
     brightness: brightness,
     fontFamily: GoogleFonts.poppins().fontFamily,
     textTheme: TextTheme(
@@ -28,6 +35,9 @@ ThemeData themeData(Brightness brightness) {
         fontWeight: FontWeight.w700,
       ),
     ),
-    
   );
+  theme = theme.copyWith(
+      sliderTheme: theme.sliderTheme
+          .copyWith(inactiveTrackColor: theme.colorScheme.background));
+  return theme;
 }
