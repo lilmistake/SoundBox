@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: web-build
-          path: app/build/web
+          path: build/web
 
       - name: Build Android
         if: matrix.os == 'ubuntu-latest'
@@ -62,7 +62,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: android-apk
-          path: app/build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
 
       - name: Build Windows
         if: matrix.os == 'windows-latest'
@@ -73,7 +73,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: windows-build
-          path: app/build/windows/runner/Release
+          path: build/windows/x64/runner/Release
 
       - name: Build Linux
         if: matrix.os == 'ubuntu-latest'
@@ -84,4 +84,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: linux-build
-          path: app/build/linux/x64/release/bundle
+          path: build/linux/x64/release/bundle
