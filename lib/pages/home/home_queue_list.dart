@@ -15,7 +15,6 @@ class HomeQueueList extends StatelessWidget {
       return const SizedBox();
     }
     return ListView.builder(
-        shrinkWrap: true,
         itemCount: songProvider.currentQueue?.length ?? 0,
         itemBuilder: (context, index) => _QueueChild(index: index));
   }
@@ -29,13 +28,14 @@ class _QueueChild extends StatelessWidget {
   Widget build(BuildContext context) {
     SongProvider songProvider = Provider.of<SongProvider>(context);
     if (index == songProvider.currentSongIndex) {
-      SearchResultTile(
-          clickable: false, song: songProvider.currentQueue!.elementAt(index));
+      return Container(
+        color: Theme.of(context).colorScheme.surfaceVariant,
+        child: SearchResultTile(
+            clickable: false,
+            song: songProvider.currentQueue!.elementAt(index)),
+      );
     }
-    return Container(
-      color: Theme.of(context).colorScheme.surfaceVariant,
-      child: SearchResultTile(
-          clickable: false, song: songProvider.currentQueue!.elementAt(index)),
-    );
+    return SearchResultTile(
+        clickable: false, song: songProvider.currentQueue!.elementAt(index));
   }
 }
