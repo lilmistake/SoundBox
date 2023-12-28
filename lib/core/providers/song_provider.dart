@@ -25,6 +25,7 @@ class SongProvider extends ChangeNotifier {
   SongProvider() {
     _player.playingStream.listen((state) {
       _isPlaying = state;
+      notifyListeners();
     });
     _player.currentIndexStream.listen((index) {
       if (index != null) {
