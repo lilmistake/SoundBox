@@ -30,15 +30,13 @@ class _HomePageState extends State<HomePage> {
           padding: const EdgeInsets.all(10),
           child: Stack(
             children: [
-              SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const HomeAppBar(),
-                    SongSearchBar(setDrawer: setDrawer),
-                    const HomeQueueList()
-                  ].withGapY(height: 10),
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const HomeAppBar(),
+                  SongSearchBar(setDrawer: setDrawer),
+                  const Expanded(child:  HomeQueueList())
+                ].withGapY(height: 10),
               ),
               Align(
                   alignment: Alignment.bottomCenter,
