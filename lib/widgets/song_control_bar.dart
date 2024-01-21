@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:soundbox/pages/playing/playing_page.dart';
-import 'package:soundbox/core/providers/song_provider.dart';
+import 'package:soundbox/pages/player/player_page.dart';
+import 'package:soundbox/providers/song_provider.dart';
 
-class SongControleBar extends StatelessWidget {
-  const SongControleBar({super.key, required this.setDrawer});
-  final Function(Widget) setDrawer;
+
+class SongControlBar extends StatelessWidget {
+  /// Floating Song Control Bar at the bottom of the page.
+  /// Allows to pause, resume, play previous, play next song.
+  /// Also displays a progress bar based from a Duration Stream.
+  const SongControlBar({super.key, required this.setEndDrawer});
+  final Function(Widget) setEndDrawer;
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +24,13 @@ class SongControleBar extends StatelessWidget {
         Container(
             margin: const EdgeInsets.all(5),
             decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10)),
+                border: Border.all(),
+                borderRadius: const BorderRadius.only(),
                 color: Theme.of(context).colorScheme.surfaceVariant),
             child: ListTile(
               onTap: () {
-                setDrawer(const PlayingPage());
-                Scaffold.of(context).openDrawer();
+                setEndDrawer(const PlayerPage());
+                Scaffold.of(context).openEndDrawer();
               },
               minVerticalPadding: 0,
               dense: true,
@@ -97,8 +100,6 @@ class _ProgressBar extends StatelessWidget {
                   child: Container(
                     height: 5,
                     decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(5)),
                         color: Theme.of(context).colorScheme.onBackground),
                     child: const SizedBox(),
                   ),
@@ -108,8 +109,6 @@ class _ProgressBar extends StatelessWidget {
                   child: Container(
                     height: 5,
                     decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(5)),
                         color: Theme.of(context)
                             .colorScheme
                             .onBackground

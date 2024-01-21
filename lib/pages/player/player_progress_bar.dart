@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:soundbox/core/providers/song_provider.dart';
+import 'package:soundbox/providers/song_provider.dart';
 
-class PlayingProgressBar extends StatefulWidget {
-  const PlayingProgressBar({super.key});
+class PlayerProgressBar extends StatefulWidget {
+  const PlayerProgressBar({super.key});
 
   @override
-  State<PlayingProgressBar> createState() => _PlayingProgressBarState();
+  State<PlayerProgressBar> createState() => _PlayerProgressBarState();
 }
 
-class _PlayingProgressBarState extends State<PlayingProgressBar> {
+class _PlayerProgressBarState extends State<PlayerProgressBar> {
+  static int position = 0;
   double? dragPosition;
   String secondsToString(int seconds) {
     return "${(seconds / 60).floor()}:${(seconds % 60).toString().length == 1 ? '0' : ''}${seconds % 60}";
@@ -20,12 +21,10 @@ class _PlayingProgressBarState extends State<PlayingProgressBar> {
     SongProvider songProvider = Provider.of<SongProvider>(context);
     if (songProvider.currentSong == null) return const SizedBox();
     return StreamBuilder(
-        stream: songProvider.player.positionStream,
+        stream: songProvider.positionStream(),
         builder: (c, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SizedBox();
-          }
-          int seconds = snapshot.data!.inSeconds;
+          int seconds = snapshot.data?.inSeconds ?? position;
+          position = seconds;
           return Stack(
             alignment: Alignment.center,
             children: [

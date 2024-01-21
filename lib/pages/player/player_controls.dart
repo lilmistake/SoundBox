@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:soundbox/core/providers/song_provider.dart';
+import 'package:soundbox/providers/song_provider.dart';
 
-class PlayingSongControls extends StatelessWidget {
-  const PlayingSongControls({super.key});
+class PlayerControls extends StatelessWidget {
+  const PlayerControls({super.key});
 
   @override
   Widget build(BuildContext context) {

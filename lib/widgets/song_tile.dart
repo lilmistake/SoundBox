@@ -1,48 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:soundbox/core/models/popup_menu_options.dart';
 import 'package:soundbox/core/models/song_model.dart';
-import 'package:soundbox/core/providers/song_provider.dart';
+import 'package:soundbox/providers/song_provider.dart';
 
-class PopUpMenuOption {
-  final Icon icon;
-  final String label;
-  final Function(SongProvider, Song) onTap;
-
-  PopUpMenuOption(
-      {required this.icon, required this.label, required this.onTap});
-}
-
-List<PopUpMenuOption> options = [
-  PopUpMenuOption(
-      icon: const Icon(Icons.add),
-      label: "Add to Queue",
-      onTap: (songProvider, song) {
-        songProvider.addToQueue(song);
-      }),
-  PopUpMenuOption(
-      icon: const Icon(Icons.play_arrow_rounded),
-      label: "Play Song",
-      onTap: (songProvider, song) {
-        songProvider.setCurrentSong(song);
-      }),
-  /* PopUpMenuOption(
-      icon: const Icon(Icons.person),
-      label: "View Artist",
-      onTap: (songProvider, song) {}),
-  PopUpMenuOption(
-      icon: const Icon(Icons.star_rounded),
-      label: "Add to Favourites",
-      onTap: (songProvider, song) {}), */
-];
-
-class SearchResultTile extends StatelessWidget {
-  const SearchResultTile(
-      {super.key, required this.song, this.clickable = true});
+class SongTile extends StatelessWidget {
+  const SongTile({super.key, required this.song, this.clickable = true});
   final Song song;
   final bool clickable;
 
   row() {
-    if (song.explicitContent == 1) {
+    if (song.explicitContent) {
       return Row(
         children: [
           const Icon(
@@ -64,6 +32,37 @@ class SearchResultTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SongProvider songProvider = Provider.of<SongProvider>(context);
+
+    List<PopUpMenuOption> options = [
+      PopUpMenuOption(
+          icon: const Icon(Icons.play_arrow_rounded),
+          label: "Play Song",
+          onTap: () {
+            songProvider.setCurrentSong(song);
+          }),
+      PopUpMenuOption(
+          icon: const Icon(Icons.queue_play_next),
+          label: "Play Next",
+          onTap: () {
+            songProvider.playSongNext(song);
+          }),
+      PopUpMenuOption(
+          icon: const Icon(Icons.add),
+          label: "Add to Queue",
+          onTap: () {
+            songProvider.addToQueue(song);
+          }),
+      PopUpMenuOption(
+          icon: const Icon(Icons.playlist_add),
+          label: "Add to Playlist",
+          onTap: () {}),
+      PopUpMenuOption(
+          icon: const Icon(Icons.star_rounded),
+          label: "Add to Favourites",
+          onTap: () {}),
+      PopUpMenuOption(
+          icon: const Icon(Icons.person), label: "View Artist", onTap: () {}),
+    ];
     return ListTile(
         onTap: () async {
           if (!clickable) return;
@@ -79,15 +78,11 @@ class SearchResultTile extends StatelessWidget {
         subtitle: row(),
         leading: Image.network(song.images.first.link),
         contentPadding: const EdgeInsets.symmetric(horizontal: 5),
-        trailing: PopupMenuButton(onSelected: (value) {
-          options
-              .where((element) => element == value)
-              .first
-              .onTap(songProvider, song);
-        }, itemBuilder: (context) {
+        trailing: PopupMenuButton(itemBuilder: (context) {
           return options
               .map((e) => PopupMenuItem(
                     value: e,
+                    onTap: () => e.onTap(),
                     child: Wrap(
                       children: [
                         e.icon,

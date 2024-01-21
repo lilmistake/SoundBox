@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:soundbox/pages/search/search_result_tile.dart';
-import 'package:soundbox/core/providers/song_provider.dart';
+import 'package:soundbox/widgets/song_tile.dart';
+import 'package:soundbox/providers/song_provider.dart';
 
-class HomeQueueList extends StatelessWidget {
-  const HomeQueueList({
+class QueueList extends StatelessWidget {
+  /// Simple list of all songs in the queue with unclickable children.
+  const QueueList({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     SongProvider songProvider = Provider.of<SongProvider>(context);
-    if (songProvider.currentQueue?.isEmpty ?? true) {
-      return const SizedBox();
+    if (songProvider.queue?.isEmpty ?? true) {
+      return const Text(
+        "Empty Queue",
+        textAlign: TextAlign.center,
+      );
     }
+
     return ListView.builder(
-        itemCount: songProvider.currentQueue?.length ?? 0,
+        shrinkWrap: true,
+        itemCount: songProvider.queue?.length ?? 0,
         itemBuilder: (context, index) => _QueueChild(index: index));
   }
 }
@@ -27,15 +33,15 @@ class _QueueChild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SongProvider songProvider = Provider.of<SongProvider>(context);
+
     if (index == songProvider.currentSongIndex) {
       return Container(
         color: Theme.of(context).colorScheme.surfaceVariant,
-        child: SearchResultTile(
-            clickable: false,
-            song: songProvider.currentQueue!.elementAt(index)),
+        child: SongTile(
+            clickable: false, song: songProvider.queue!.elementAt(index)),
       );
     }
-    return SearchResultTile(
-        clickable: false, song: songProvider.currentQueue!.elementAt(index));
+    return SongTile(
+        clickable: false, song: songProvider.queue!.elementAt(index));
   }
 }

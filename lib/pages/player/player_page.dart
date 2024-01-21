@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:soundbox/core/extensions/with_gap_y.dart';
-import 'package:soundbox/pages/playing/playing_progress_bar.dart';
-import 'package:soundbox/pages/playing/playing_song_controls.dart';
-import 'package:soundbox/pages/playing/playing_song_lyrics.dart';
-import 'package:soundbox/core/providers/song_provider.dart';
+import 'package:soundbox/pages/player/player_progress_bar.dart';
+import 'package:soundbox/pages/player/player_controls.dart';
+import 'package:soundbox/pages/player/player_lyrics.dart';
+import 'package:soundbox/providers/song_provider.dart';
 
-class PlayingPage extends StatelessWidget {
-  const PlayingPage({super.key});
+class PlayerPage extends StatelessWidget {
+  const PlayerPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +39,10 @@ class PlayingPage extends StatelessWidget {
                   ],
                 ),
                 Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(30),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        songProvider.currentSong!.images.last.link,
-                      ),
-                    ),
+                  child: Image.network(
+                    songProvider.currentSong!.images.last.link,
+                    width: 300,
+                    height: 300,
                   ),
                 ),
                 Row(
@@ -57,7 +53,7 @@ class PlayingPage extends StatelessWidget {
                         children: [
                           Text(
                             songProvider.currentSong!.name,
-                            style: Theme.of(context).textTheme.headlineMedium,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                           Text(songProvider.currentSong!.primaryArtists),
                         ],
@@ -71,9 +67,9 @@ class PlayingPage extends StatelessWidget {
                         ))
                   ],
                 ),
-                const PlayingProgressBar(),
-                const PlayingSongControls(),
-                const PlayingSongLyrics()
+                const PlayerProgressBar(),
+                const PlayerControls(),
+                const PlayerSongLyrics()
               ].withGapY(height: 10),
             ),
           ),
